@@ -1,0 +1,24 @@
+{
+  "name": "SOLSPACE Ship 3133",
+  "description": "A SOLSPACE Upgradable Spaceship",
+  "external_url": "https://solspacemetaverse.com/assets/ships/3133.svg",
+  "image": "ipfs://QmTA3HM1WREzQYzKgTuFLe8xBY48TLD7ZMS3RaJpeN8R2N",
+  "attributes": [
+    {
+      "cabin": 3,
+      "rarity": 0.25
+    },
+    {
+      "engine": 1,
+      "rarity": 0.25
+    },
+    {
+      "wing": 3,
+      "rarity": 0.25
+    },
+    {
+      "weapon": 3,
+      "rarity": 0.25
+    }
+  ]
+}

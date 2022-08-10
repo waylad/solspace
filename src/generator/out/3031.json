@@ -1,0 +1,24 @@
+{
+  "name": "SOLSPACE Ship 3031",
+  "description": "A SOLSPACE Upgradable Spaceship",
+  "external_url": "https://solspacemetaverse.com/assets/ships/3031.svg",
+  "image": "ipfs://QmTsAz8GZfWioZo8vTxnXnEHjCvkrXUmt3tEA75yLonuWc",
+  "attributes": [
+    {
+      "cabin": 3,
+      "rarity": 0.25
+    },
+    {
+      "engine": 0,
+      "rarity": 0.25
+    },
+    {
+      "wing": 3,
+      "rarity": 0.25
+    },
+    {
+      "weapon": 1,
+      "rarity": 0.25
+    }
+  ]
+}

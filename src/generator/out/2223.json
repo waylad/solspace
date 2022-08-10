@@ -1,0 +1,24 @@
+{
+  "name": "SOLSPACE Ship 2223",
+  "description": "A SOLSPACE Upgradable Spaceship",
+  "external_url": "https://solspacemetaverse.com/assets/ships/2223.svg",
+  "image": "ipfs://QmTucjQWa329auzPttwyMvK18mh7waDiUbSNF8icYhYXTr",
+  "attributes": [
+    {
+      "cabin": 2,
+      "rarity": 0.25
+    },
+    {
+      "engine": 2,
+      "rarity": 0.25
+    },
+    {
+      "wing": 2,
+      "rarity": 0.25
+    },
+    {
+      "weapon": 3,
+      "rarity": 0.25
+    }
+  ]
+}

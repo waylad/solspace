@@ -1,0 +1,24 @@
+{
+  "name": "SOLSPACE Ship 1203",
+  "description": "A SOLSPACE Upgradable Spaceship",
+  "external_url": "https://solspacemetaverse.com/assets/ships/1203.svg",
+  "image": "ipfs://QmdH7HXfUXnHSmW9EZFNz26SM1xXLbAgpstAhFdpLheTLg",
+  "attributes": [
+    {
+      "cabin": 1,
+      "rarity": 0.25
+    },
+    {
+      "engine": 2,
+      "rarity": 0.25
+    },
+    {
+      "wing": 0,
+      "rarity": 0.25
+    },
+    {
+      "weapon": 3,
+      "rarity": 0.25
+    }
+  ]
+}
