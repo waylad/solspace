@@ -1,0 +1,24 @@
+{
+  "name": "SOLSPACE Ship 3230",
+  "description": "A SOLSPACE Upgradable Spaceship",
+  "external_url": "https://solspacemetaverse.com/assets/ships/3230.svg",
+  "image": "https://solspacemetaverse.com/assets/ships/3230.svg",
+  "attributes": [
+    {
+      "cabin": 3,
+      "rarity": 0.25
+    },
+    {
+      "engine": 2,
+      "rarity": 0.25
+    },
+    {
+      "wing": 3,
+      "rarity": 0.25
+    },
+    {
+      "weapon": 0,
+      "rarity": 0.25
+    }
+  ]
+}
