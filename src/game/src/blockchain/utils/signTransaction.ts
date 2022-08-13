@@ -12,7 +12,7 @@ const signTransaction = async (provider: PhantomProvider, transaction: Transacti
   try {
     const signedTransaction = await provider.signTransaction(transaction);
     return signedTransaction;
-  } catch (error) {
+  } catch (error: any) {
     console.warn(error);
     throw new Error(error.message);
   }

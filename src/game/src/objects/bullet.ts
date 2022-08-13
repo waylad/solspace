@@ -1,7 +1,7 @@
 import { IBulletConstructor } from '../interfaces/bullet.interface'
 
 export class Bullet extends Phaser.Physics.Arcade.Sprite {
-  body: Phaser.Physics.Arcade.Body
+  body: Phaser.Physics.Arcade.Body | Phaser.Physics.Arcade.StaticBody
 
   private velocity: Phaser.Math.Vector2
   private lifeSpan: number
@@ -13,6 +13,7 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
 
   constructor(aParams: IBulletConstructor) {
     super(aParams.scene, aParams.x, aParams.y, aParams.texture)
+    this.body = super.body
 
     // variables
     this.lifeSpan = 100
@@ -31,7 +32,7 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
 
     // physics
     this.scene.physics.world.enable(this)
-    this.body.allowGravity = false
+    // this.body.allowGravity = false
     this.body.setCircle(3)
     this.body.setOffset(140, 35)
     this.scene.add.existing(this)

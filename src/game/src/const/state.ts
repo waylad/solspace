@@ -18,7 +18,7 @@ export type State = {
   spaceShipsContract: string
   spaceCoinsContract: string
   ownedShips: ShipToken[]
-  currentShip: ShipToken | undefined
+  currentShip: ShipToken | null
   currentLevelIndex: number
   levelHistory: number[]
   spaceCoinsBalance: number

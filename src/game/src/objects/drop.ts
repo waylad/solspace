@@ -2,7 +2,7 @@ import { state } from '../const/state'
 import { IDropConstructor } from '../interfaces/drop.interface'
 
 export class Drop extends Phaser.Physics.Arcade.Sprite {
-  body: Phaser.Physics.Arcade.Body
+  body: Phaser.Physics.Arcade.Body | Phaser.Physics.Arcade.StaticBody
 
   public getBody(): any {
     return this.body
@@ -10,13 +10,14 @@ export class Drop extends Phaser.Physics.Arcade.Sprite {
 
   constructor(aParams: IDropConstructor) {
     super(aParams.scene, aParams.x, aParams.y, aParams.texture)
+    this.body = super.body
 
     // init drop
     this.x = aParams.x
     this.y = aParams.y
 
     this.scene.physics.world.enable(this)
-    this.body.allowGravity = false
+    // this.body.allowGravity = false
     this.body.setSize(state.itemSize, state.itemSize)
     this.body.setOffset(state.itemSize / 2, state.itemSize / 2)
 

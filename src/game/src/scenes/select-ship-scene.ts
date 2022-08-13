@@ -2,9 +2,7 @@ import { getShips, mintShip } from '../blockchain/lib'
 import { state } from '../const/state'
 
 export class SelectShip extends Phaser.Scene {
-  private startKey: Phaser.Input.Keyboard.Key
-  private bitmapTexts: Phaser.GameObjects.BitmapText[] = []
-  private buttonMint: Phaser.GameObjects.Image
+  private buttonMint: Phaser.GameObjects.Image | null
   private showLoading: boolean
   private showingLoading: boolean
 
@@ -12,6 +10,9 @@ export class SelectShip extends Phaser.Scene {
     super({
       key: 'SelectShip',
     })
+    this.buttonMint = null
+    this.showLoading = false
+    this.showingLoading =false
   }
 
   init(): void {}
@@ -78,8 +79,8 @@ export class SelectShip extends Phaser.Scene {
     this.buttonMint.setSize(this.buttonMint.width, this.buttonMint.height)
     this.buttonMint.setInteractive({ cursor: 'pointer' })
 
-    this.buttonMint.on('pointerover', () => this.buttonMint.setTexture('buttonMintHover'))
-    this.buttonMint.on('pointerout', () => this.buttonMint.setTexture('buttonMint'))
+    this.buttonMint.on('pointerover', () => this.buttonMint && this.buttonMint.setTexture('buttonMintHover'))
+    this.buttonMint.on('pointerout', () => this.buttonMint && this.buttonMint.setTexture('buttonMint'))
 
     this.buttonMint.on('pointerdown', async () => {
       this.sound.add('clickSound').play()
@@ -103,12 +104,12 @@ export class SelectShip extends Phaser.Scene {
   update(): void {
     if (this.showLoading && !this.showingLoading) {
       this.showingLoading = true
-      this.buttonMint.setTexture('buttonLoading')
+      if(this.buttonMint) this.buttonMint.setTexture('buttonLoading')
     }
 
     if (!this.showLoading && this.showingLoading) {
       this.showingLoading = false
-      this.buttonMint.setTexture('buttonMint')
+      if(this.buttonMint) this.buttonMint.setTexture('buttonMint')
     }
   }
 }

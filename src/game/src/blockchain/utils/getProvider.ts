@@ -15,6 +15,7 @@ const getProvider = (): PhantomProvider | undefined => {
   }
 
   window.open('https://phantom.app/', '_blank');
+  return undefined
 };
 
 export default getProvider;

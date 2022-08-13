@@ -3,7 +3,7 @@ import { state } from '../const/state'
 import { IShipConstructor } from '../interfaces/ship.interface'
 
 export class Ship extends Phaser.GameObjects.Container {
-  public body: Phaser.Physics.Arcade.Body
+  body: Phaser.Physics.Arcade.Body | Phaser.Physics.Arcade.StaticBody
   private velocity: Phaser.Math.Vector2
   private cursors: any
   private bullets: Bullet[]
@@ -27,7 +27,8 @@ export class Ship extends Phaser.GameObjects.Container {
 
   constructor(aParams: IShipConstructor) {
     super(aParams.scene, aParams.x, aParams.y)
-
+    this.body = super.body as Phaser.Physics.Arcade.Body | Phaser.Physics.Arcade.StaticBody
+    this.velocity = new Phaser.Math.Vector2(0, 0)
     this.shipCode = aParams.shipCode
 
     this.engineSound = this.scene.sound.add('engineSound')
@@ -47,7 +48,7 @@ export class Ship extends Phaser.GameObjects.Container {
 
     // physics
     this.scene.physics.world.enable(this)
-    this.body.allowGravity = false
+    // this.body.allowGravity = false
     this.body.setSize(state.shipSize * 2, state.shipSize * 2)
     this.body.setOffset(-state.shipSize, -state.shipSize)
 

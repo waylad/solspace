@@ -38,11 +38,16 @@ export class Inventory extends Phaser.Scene {
 
     this.add.image(this.sys.canvas.width / 2, 80, 'titleInventory')
 
+    const currentShip = state.currentShip || {
+      tokenId: 0,
+      shipCode: '0000'
+    }
+
     const bigCell = this.add.image(0, 0, 'bigCell')
-    const partCabin = this.add.image(0, 0, `partCabin${state.currentShip.shipCode[0]}`)
-    const partEngine = this.add.image(0, 0, `partEngine${state.currentShip.shipCode[1]}`)
-    const partWing = this.add.image(0, 0, `partWing${state.currentShip.shipCode[2]}`)
-    const partWeapon = this.add.image(0, 0, `partWeapon${state.currentShip.shipCode[3]}`)
+    const partCabin = this.add.image(0, 0, `partCabin${currentShip.shipCode[0]}`)
+    const partEngine = this.add.image(0, 0, `partEngine${currentShip.shipCode[1]}`)
+    const partWing = this.add.image(0, 0, `partWing${currentShip.shipCode[2]}`)
+    const partWeapon = this.add.image(0, 0, `partWeapon${currentShip.shipCode[3]}`)
     let container = this.add.container(320, 435, [bigCell, partWeapon, partWing, partEngine, partCabin])
     container.setSize(bigCell.width, bigCell.height)
 
@@ -51,10 +56,10 @@ export class Inventory extends Phaser.Scene {
     const cellWing = this.add.image(560, 540, 'cell')
     const cellWeapon = this.add.image(560, 330, 'cell')
 
-    const itemCabin = this.add.image(350, 220, `itemCabin${state.currentShip.shipCode[0]}`)
-    const itemEngine = this.add.image(350, 650, `itemEngine${state.currentShip.shipCode[1]}`)
-    const itemWing = this.add.image(560, 540, `itemWing${state.currentShip.shipCode[2]}`)
-    const itemWeapon = this.add.image(560, 330, `itemWeapon${state.currentShip.shipCode[3]}`)
+    const itemCabin = this.add.image(350, 220, `itemCabin${currentShip.shipCode[0]}`)
+    const itemEngine = this.add.image(350, 650, `itemEngine${currentShip.shipCode[1]}`)
+    const itemWing = this.add.image(560, 540, `itemWing${currentShip.shipCode[2]}`)
+    const itemWeapon = this.add.image(560, 330, `itemWeapon${currentShip.shipCode[3]}`)
 
     for (let j = 0; j < 4; j++) {
       for (let i = 0; i < 6; i++) {
@@ -89,44 +94,44 @@ export class Inventory extends Phaser.Scene {
           this.input.on('dragend', (pointer: Phaser.Input.Pointer, gameObject: any) => {
             this.counter += 1
             if (gameObject.texture.key.indexOf('Cabin') >= 0 && this.counter <= 1) {
-              state.currentShip.shipCode = this.replaceAt(
-                state.currentShip.shipCode,
+              currentShip.shipCode = this.replaceAt(
+                currentShip.shipCode,
                 0,
                 gameObject.texture.key.replace('itemCabin', ''),
               )
-              itemCabin.setTexture(`itemCabin${state.currentShip.shipCode[0]}`)
-              partCabin.setTexture(`partCabin${state.currentShip.shipCode[0]}`)
-              upgradeShip(state.currentShip)
+              itemCabin.setTexture(`itemCabin${currentShip.shipCode[0]}`)
+              partCabin.setTexture(`partCabin${currentShip.shipCode[0]}`)
+              upgradeShip(currentShip)
             }
             if (gameObject.texture.key.indexOf('Engine') >= 0 && this.counter <= 1) {
-              state.currentShip.shipCode = this.replaceAt(
-                state.currentShip.shipCode,
+              currentShip.shipCode = this.replaceAt(
+                currentShip.shipCode,
                 1,
                 gameObject.texture.key.replace('itemEngine', ''),
               )
-              itemEngine.setTexture(`itemEngine${state.currentShip.shipCode[1]}`)
-              partEngine.setTexture(`partEngine${state.currentShip.shipCode[1]}`)
-              upgradeShip(state.currentShip)
+              itemEngine.setTexture(`itemEngine${currentShip.shipCode[1]}`)
+              partEngine.setTexture(`partEngine${currentShip.shipCode[1]}`)
+              upgradeShip(currentShip)
             }
             if (gameObject.texture.key.indexOf('Wing') >= 0 && this.counter <= 1) {
-              state.currentShip.shipCode = this.replaceAt(
-                state.currentShip.shipCode,
+              currentShip.shipCode = this.replaceAt(
+                currentShip.shipCode,
                 2,
                 gameObject.texture.key.replace('itemWing', ''),
               )
-              itemWing.setTexture(`itemWing${state.currentShip.shipCode[2]}`)
-              partWing.setTexture(`partWing${state.currentShip.shipCode[2]}`)
-              upgradeShip(state.currentShip)
+              itemWing.setTexture(`itemWing${currentShip.shipCode[2]}`)
+              partWing.setTexture(`partWing${currentShip.shipCode[2]}`)
+              upgradeShip(currentShip)
             }
             if (gameObject.texture.key.indexOf('Weapon') >= 0 && this.counter <= 1) {
-              state.currentShip.shipCode = this.replaceAt(
-                state.currentShip.shipCode,
+              currentShip.shipCode = this.replaceAt(
+                currentShip.shipCode,
                 3,
                 gameObject.texture.key.replace('itemWeapon', ''),
               )
-              itemWeapon.setTexture(`itemWeapon${state.currentShip.shipCode[3]}`)
-              partWeapon.setTexture(`partWeapon${state.currentShip.shipCode[3]}`)
-              upgradeShip(state.currentShip)
+              itemWeapon.setTexture(`itemWeapon${currentShip.shipCode[3]}`)
+              partWeapon.setTexture(`partWeapon${currentShip.shipCode[3]}`)
+              upgradeShip(currentShip)
             }
 
             gameObject.x = -100

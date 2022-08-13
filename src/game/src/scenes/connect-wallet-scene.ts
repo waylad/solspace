@@ -2,9 +2,7 @@ import { connectWallet, getShips } from '../blockchain/lib'
 import { state } from '../const/state'
 
 export class ConnectWallet extends Phaser.Scene {
-  private startKey: Phaser.Input.Keyboard.Key
-  private bitmapTexts: Phaser.GameObjects.BitmapText[] = []
-  private buttonConnectWallet: Phaser.GameObjects.Image
+  private buttonConnectWallet: Phaser.GameObjects.Image | null
   private showLoading: boolean
   private showingLoading: boolean
 
@@ -12,6 +10,9 @@ export class ConnectWallet extends Phaser.Scene {
     super({
       key: 'ConnectWallet',
     })
+    this.buttonConnectWallet = null
+    this.showLoading = false
+    this.showingLoading = false
   }
 
   init(): void {}
@@ -39,11 +40,11 @@ export class ConnectWallet extends Phaser.Scene {
     this.buttonConnectWallet.setInteractive({ cursor: 'pointer' })
     this.buttonConnectWallet.on(
       'pointerover',
-      () => !this.showingLoading && this.buttonConnectWallet.setTexture('buttonConnectWalletHover'),
+      () => !this.showingLoading && this.buttonConnectWallet && this.buttonConnectWallet.setTexture('buttonConnectWalletHover'),
     )
     this.buttonConnectWallet.on(
       'pointerout',
-      () => !this.showingLoading && this.buttonConnectWallet.setTexture('buttonConnectWallet'),
+      () => !this.showingLoading && this.buttonConnectWallet && this.buttonConnectWallet.setTexture('buttonConnectWallet'),
     )
     this.buttonConnectWallet.on('pointerdown', async () => {
       this.sound.add('clickSound').play()
@@ -57,7 +58,7 @@ export class ConnectWallet extends Phaser.Scene {
   }
 
   update(): void {
-    if (this.showLoading && !this.showingLoading) {
+    if (this.showLoading && !this.showingLoading &&  this.buttonConnectWallet) {
       this.showingLoading = true
       this.buttonConnectWallet.setTexture('buttonLoading')
     }

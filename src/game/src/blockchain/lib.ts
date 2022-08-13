@@ -1,82 +1,78 @@
-import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
-import { state, ShipToken } from '../const/state'
-import {
-  getProvider,
-  signAllTransactions,
-  signAndSendTransaction,
-  signMessage,
-  signTransaction,
-  createTransferTransaction,
-  pollSignatureStatus,
-} from './utils';
-import { TLog } from './types';
+import { Metaplex } from '@metaplex-foundation/js'
+import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js'
 
-const NETWORK = clusterApiUrl('devnet');
-const provider = getProvider();
-const connection = new Connection(NETWORK);
+import { ShipToken } from '../const/state'
+import { TLog } from './types'
+import { getProvider } from './utils'
+
+const NETWORK = clusterApiUrl('devnet')
+const provider = getProvider()
+const connection = new Connection(NETWORK)
+const metaplex = new Metaplex(connection)
 
 export type ConnectedMethods =
   | {
-    name: string;
-    onClick: () => Promise<string>;
-  }
+      name: string
+      onClick: () => Promise<string>
+    }
   | {
-    name: string;
-    onClick: () => Promise<void>;
-  };
+      name: string
+      onClick: () => Promise<void>
+    }
 
 interface Props {
-  publicKey: PublicKey | null;
-  connectedMethods: ConnectedMethods[];
-  handleConnect: () => Promise<void>;
-  logs: TLog[];
-  clearLogs: () => void;
+  publicKey: PublicKey | null
+  connectedMethods: ConnectedMethods[]
+  handleConnect: () => Promise<void>
+  logs: TLog[]
+  clearLogs: () => void
 }
-
 
 export const connectWallet = async () => {
   try {
-    provider.on('connect', (publicKey: PublicKey) => {
-      console.log({
-        status: 'success',
-        method: 'connect',
-        message: `Connected to account ${publicKey.toBase58()}`,
-      });
-    });
-
-    provider.on('disconnect', () => {
-      console.log({
-        status: 'warning',
-        method: 'disconnect',
-        message: '👋',
-      });
-    });
-
-    provider.on('accountChanged', (publicKey: PublicKey | null) => {
-      if (publicKey) {
+    if (provider) {
+      provider.on('connect', (publicKey: PublicKey) => {
         console.log({
-          status: 'info',
-          method: 'accountChanged',
-          message: `Switched to account ${publicKey.toBase58()}`,
-        });
-      } else {
-        console.log({
-          status: 'info',
-          method: 'accountChanged',
-          message: 'Attempting to switch accounts.',
-        });
+          status: 'success',
+          method: 'connect',
+          message: `Connected to account ${publicKey.toBase58()}`,
+        })
+      })
 
-        provider.connect().catch((error) => {
+      provider.on('disconnect', () => {
+        console.log({
+          status: 'warning',
+          method: 'disconnect',
+          message: '👋',
+        })
+      })
+
+      provider.on('accountChanged', (publicKey: PublicKey | null) => {
+        if (publicKey) {
           console.log({
-            status: 'error',
+            status: 'info',
             method: 'accountChanged',
-            message: `Failed to re-connect: ${error.message}`,
-          });
-        });
-      }
-    });
-    
-    await provider.connect();
+            message: `Switched to account ${publicKey.toBase58()}`,
+          })
+        } else {
+          console.log({
+            status: 'info',
+            method: 'accountChanged',
+            message: 'Attempting to switch accounts.',
+          })
+
+          provider.connect().catch((error) => {
+            console.log({
+              status: 'error',
+              method: 'accountChanged',
+              message: `Failed to re-connect: ${error.message}`,
+            })
+          })
+        }
+      })
+
+      await provider.connect()
+    }
   } catch (e: any) {
     console.log(e)
     // window.location.reload()
@@ -89,12 +85,10 @@ export const getShips = async () => {
     // const shipId2 = await spaceShipsContractWithSigner.tokenOfOwnerByIndex(address, 2)
     // const shipId3 = await spaceShipsContractWithSigner.tokenOfOwnerByIndex(address, 3)
     // const shipId4 = await spaceShipsContractWithSigner.tokenOfOwnerByIndex(address, 4)
-
     // const shipCode1 = await spaceShipsContractWithSigner._tokenToShipCode(shipId1)
     // const shipCode2 = await spaceShipsContractWithSigner._tokenToShipCode(shipId2)
     // const shipCode3 = await spaceShipsContractWithSigner._tokenToShipCode(shipId3)
     // const shipCode4 = await spaceShipsContractWithSigner._tokenToShipCode(shipId4)
-
     // state.ownedShips = [
     //   {
     //     tokenId: shipId1,
@@ -124,6 +118,14 @@ export const mintShip = async () => {
   // const tx = await spaceShipsContractWithSigner.mintShip(address)
   // const receipt = await tx.wait();
   // console.log(receipt)
+  const { nft } = await metaplex
+    .nfts()
+    .create({
+      uri: 'https://arweave.net/123',
+      name: 'My NFT',
+      sellerFeeBasisPoints: 500, // Represents 5.00%.
+    })
+    .run()
 }
 
 export const upgradeShip = async (ship: ShipToken) => {

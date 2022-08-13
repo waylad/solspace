@@ -3,12 +3,8 @@ import { IEnemyConstructor } from '../interfaces/enemy.interface'
 import { Bullet } from './bullet'
 
 export class Enemy extends Phaser.GameObjects.Container {
-  public body: Phaser.Physics.Arcade.Body
-  private velocity: Phaser.Math.Vector2
-  private cursors: any
+  body: Phaser.Physics.Arcade.Body | Phaser.Physics.Arcade.StaticBody
   private bullets: Bullet[]
-  private shootKey: Phaser.Input.Keyboard.Key
-  private isShooting: boolean
   private emitter: Phaser.GameObjects.Particles.ParticleEmitter
   private shootCount: number
   private particles: Phaser.GameObjects.Particles.ParticleEmitterManager
@@ -27,6 +23,7 @@ export class Enemy extends Phaser.GameObjects.Container {
 
   constructor(aParams: IEnemyConstructor) {
     super(aParams.scene, aParams.x, aParams.y)
+    this.body = super.body as Phaser.Physics.Arcade.Body | Phaser.Physics.Arcade.StaticBody
 
     this.shipCode = aParams.shipCode
     this.speed = aParams.speed
@@ -35,7 +32,6 @@ export class Enemy extends Phaser.GameObjects.Container {
 
     // variables
     this.bullets = []
-    this.isShooting = false
     this.shootCount = 0
 
     // init enemy
@@ -44,7 +40,7 @@ export class Enemy extends Phaser.GameObjects.Container {
 
     // physics
     this.scene.physics.world.enable(this)
-    this.body.allowGravity = false
+    // this.body.allowGravity = false
     this.body.setSize(state.shipSize * 2, state.shipSize * 2)
     this.body.setOffset(-state.shipSize, -state.shipSize)
 
@@ -84,7 +80,7 @@ export class Enemy extends Phaser.GameObjects.Container {
     // define enemy properties
     this.x = x
     this.y = y
-    this.velocity = new Phaser.Math.Vector2(0, 0)
+    // this.velocity = new Phaser.Math.Vector2(0, 0)
   }
 
   update(): void {

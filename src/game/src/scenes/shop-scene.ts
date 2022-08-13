@@ -2,15 +2,19 @@ import { burnTokens, getTokenBalance, mintTokens } from '../blockchain/lib'
 import { state } from '../const/state'
 
 export class Shop extends Phaser.Scene {
-  private textBalance: Phaser.GameObjects.Text
-  private counterInventory = 0
-  private counterShop = 0
-  private balanceTimer: Phaser.Time.TimerEvent
+  private textBalance: Phaser.GameObjects.Text | null
+  private counterInventory: number
+  private counterShop: number
+  private balanceTimer: Phaser.Time.TimerEvent | null
 
   constructor() {
     super({
       key: 'Shop',
     })
+    this.textBalance = null
+    this.counterInventory = 0
+    this.counterShop = 0
+    this.balanceTimer = null
   }
 
   replaceAt = function (original: string, index: number, replacement: string) {
@@ -156,6 +160,6 @@ export class Shop extends Phaser.Scene {
   }
 
   update(time: number, delta: number): void {
-    this.textBalance.setText(`MY BALANCE: ${state.spaceCoinsBalance} BAL`)
+    if (this.textBalance) this.textBalance.setText(`MY BALANCE: ${state.spaceCoinsBalance} BAL`)
   }
 }

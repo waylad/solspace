@@ -6,27 +6,32 @@ import { Drop } from '../objects/drop'
 import { levels } from '../const/levels.json'
 import { HealthBar } from '../objects/healthBar'
 
-
 export class Game extends Phaser.Scene {
-  private player: Ship
-  private enemy: Enemy
-  private sparkEmitter0: Phaser.GameObjects.Particles.ParticleEmitter
-  private sparkEmitter1: Phaser.GameObjects.Particles.ParticleEmitter
-  private drops: Drop[] = []
-  private healthBar: HealthBar
+  private player: Ship | null
+  private enemy: Enemy | null
+  private sparkEmitter0: Phaser.GameObjects.Particles.ParticleEmitter | null
+  private sparkEmitter1: Phaser.GameObjects.Particles.ParticleEmitter | null
+  private drops: Drop[]
+  private healthBar: HealthBar | null
 
-  private distance = 300;
-  private speed = 6;
-  private stars = [];
-  private max = 400;
-  private x = [];
-  private y = [];
-  private z = [];
+  private distance: number = 300
+  private speed: number = 6
+  private stars: Phaser.GameObjects.Sprite[] = []
+  private max: number = 400
+  private x: number[] = []
+  private y: number[] = []
+  private z: number[] = []
 
   constructor() {
     super({
       key: 'Game',
     })
+    this.player = null
+    this.enemy = null
+    this.sparkEmitter0 = null
+    this.sparkEmitter1 = null
+    this.drops = []
+    this.healthBar = null
   }
 
   preload(): void {}
@@ -34,10 +39,10 @@ export class Game extends Phaser.Scene {
   create(): void {
     //------ Stars ------//
     for (let i = 0; i < this.max; i++) {
-      this.stars.push(this.add.sprite(this.sys.canvas.width / 2, this.sys.canvas.height / 2, 'star'));
-      this.x[i] = Math.floor(Math.random() * 800) - 400;
-      this.y[i] = Math.floor(Math.random() * 600) - 300;
-      this.z[i] = Math.floor(Math.random() * 1700) - 100;
+      this.stars.push(this.add.sprite(this.sys.canvas.width / 2, this.sys.canvas.height / 2, 'star'))
+      this.x[i] = Math.floor(Math.random() * 800) - 400
+      this.y[i] = Math.floor(Math.random() * 600) - 300
+      this.z[i] = Math.floor(Math.random() * 1700) - 100
     }
     //------ Stars ------//
 
@@ -47,7 +52,7 @@ export class Game extends Phaser.Scene {
       scene: this,
       x: this.sys.canvas.width / 2,
       y: this.sys.canvas.height / 2,
-      shipCode: state.currentShip.shipCode,
+      shipCode: state.currentShip ? state.currentShip.shipCode : '0000',
     })
 
     this.enemy = new Enemy({
@@ -57,9 +62,9 @@ export class Game extends Phaser.Scene {
       shipCode: currentLevel.enemyCode,
       speed: currentLevel.speed,
       rateOfFire: currentLevel.rateOfFire,
-      player: this.player
+      player: this.player,
     })
-  
+
     const bg = this.add.tileSprite(
       this.sys.canvas.width / 2,
       this.sys.canvas.height / 2,
@@ -67,9 +72,7 @@ export class Game extends Phaser.Scene {
       this.sys.canvas.height,
       levels[state.currentLevelIndex].background,
     )
-    bg.setDepth(-1);
-
-
+    bg.setDepth(-1)
 
     // Sparks
     this.sparkEmitter0 = this.add.particles('spark0').createEmitter({
@@ -102,7 +105,7 @@ export class Game extends Phaser.Scene {
     buttonMap.on('pointerout', () => buttonMap.setTexture('buttonMap'))
     buttonMap.on('pointerdown', () => {
       this.sound.add('clickSound').play()
-      this.enemy.destroy()
+      if (this.enemy) this.enemy.destroy()
       this.drops.forEach((drop) => drop.destroy())
       this.drops = []
       this.scene.start('Map')
@@ -114,7 +117,7 @@ export class Game extends Phaser.Scene {
     buttonInventory.on('pointerout', () => buttonInventory.setTexture('buttonInventory'))
     buttonInventory.on('pointerdown', () => {
       this.sound.add('clickSound').play()
-      this.enemy.destroy()
+      if (this.enemy) this.enemy.destroy()
       this.drops.forEach((drop) => drop.destroy())
       this.drops = []
       this.scene.start('Inventory')
@@ -126,7 +129,7 @@ export class Game extends Phaser.Scene {
     buttonShop.on('pointerout', () => buttonShop.setTexture('buttonShop'))
     buttonShop.on('pointerdown', () => {
       this.sound.add('clickSound').play()
-      this.enemy.destroy()
+      if (this.enemy) this.enemy.destroy()
       this.drops.forEach((drop) => drop.destroy())
       this.drops = []
       this.scene.start('Shop')
@@ -138,7 +141,7 @@ export class Game extends Phaser.Scene {
     buttonBack.on('pointerout', () => buttonBack.setTexture('buttonBack'))
     buttonBack.on('pointerdown', () => {
       this.sound.add('clickSound').play()
-      this.enemy.destroy()
+      if (this.enemy) this.enemy.destroy()
       this.drops.forEach((drop) => drop.destroy())
       this.drops = []
       this.scene.start('SelectShip')
@@ -148,128 +151,132 @@ export class Game extends Phaser.Scene {
   }
 
   damage(amount: number): void {
-    if (this.healthBar.decrease(amount)) {
-      this.enemy.destroy()
+    if (this.healthBar && this.healthBar.decrease(amount)) {
+      if (this.enemy) this.enemy.destroy()
       this.drops.forEach((drop) => drop.destroy())
       this.drops = []
-      this.player.setActive(false)
+      if (this.player) this.player.setActive(false)
       this.scene.start('GameOver')
     }
   }
 
   update(time: number, delta: number): void {
-    this.player.update(time, delta)
+    if (this.player) this.player.update(time, delta)
 
     //------ Stars ------//
     for (let i = 0; i < this.max; i++) {
-      const perspective = this.distance / (this.distance - this.z[i]);
-      const x_coord = (this.sys.canvas.width / 2) + this.x[i] * perspective;
-      const y_coord = (this.sys.canvas.height / 2) + this.y[i] * perspective;
-  
-      this.z[i] += this.speed;
-  
+      const perspective = this.distance / (this.distance - this.z[i])
+      const x_coord = this.sys.canvas.width / 2 + this.x[i] * perspective
+      const y_coord = this.sys.canvas.height / 2 + this.y[i] * perspective
+
+      this.z[i] += this.speed
+
       if (this.z[i] > 300) {
-        this.z[i] -= 600;
+        this.z[i] -= 600
       }
-  
-      this.stars[i].setPosition(x_coord, y_coord);
+
+      this.stars[i].setPosition(x_coord, y_coord)
     }
     //------ Stars ------//
 
     // check collision between enemys and ship's bullets
-    for (let bullet of this.player.getBullets()) {
-      if (
-        bullet.getBody() &&
-        this.enemy.getBody() &&
-        Phaser.Geom.Intersects.RectangleToRectangle(bullet.getBody(), this.enemy.getBody())
-      ) {
-        bullet.setActive(false)
-        this.enemy.setActive(false)
+    if (this.player && this.enemy) {
+      for (let bullet of this.player.getBullets()) {
+        if (
+          bullet.getBody() &&
+          this.enemy.getBody() &&
+          Phaser.Geom.Intersects.RectangleToRectangle(bullet.getBody(), this.enemy.getBody())
+        ) {
+          bullet.setActive(false)
+          this.enemy.setActive(false)
 
-        // Sparks
-        this.sparkEmitter0.active = true
-        this.sparkEmitter1.active = true
-        this.sparkEmitter0.setPosition(bullet.getBody().x, bullet.getBody().y)
-        this.sparkEmitter1.setPosition(bullet.getBody().x, bullet.getBody().y)
-        //@ts-ignore
-        this.sparkEmitter0.explode()
-        //@ts-ignore
-        this.sparkEmitter1.explode()
+          // Sparks
+          if (this.sparkEmitter0 && this.sparkEmitter1) {
+            this.sparkEmitter0.active = true
+            this.sparkEmitter0.setPosition(bullet.getBody().x, bullet.getBody().y)
+            this.sparkEmitter0.explode(1, 0, 0)
 
-        // Explosions
-        const explosionConfig = {
-          key: 'explosionAnim',
-          frames: 'explosion',
-          frameRate: 20,
-          repeat: 0,
+            this.sparkEmitter1.active = true
+            this.sparkEmitter1.setPosition(bullet.getBody().x, bullet.getBody().y)
+            this.sparkEmitter1.explode(1, 0, 0)
+          }
+
+          // Explosions
+          const explosionConfig = {
+            key: 'explosionAnim',
+            frames: 'explosion',
+            frameRate: 20,
+            repeat: 0,
+          }
+          this.anims.create(explosionConfig)
+          this.sound.add('explodeSound').play()
+          const anim = this.add.sprite(bullet.getBody().x, bullet.getBody().y, 'explosion')
+          anim.setDepth(3)
+          anim.play('explosionAnim', false)
+
+          // Drop item
+          this.drops.push(
+            new Drop({
+              scene: this,
+              x: bullet.getBody().x,
+              y: bullet.getBody().y,
+              texture: this.getRandomItem(),
+            }),
+          )
         }
-        this.anims.create(explosionConfig)
-        this.sound.add('explodeSound').play()
-        const anim = this.add.sprite(bullet.getBody().x, bullet.getBody().y, 'explosion')
-        anim.setDepth(3)
-        anim.play('explosionAnim', false)
-
-        // Drop item
-        this.drops.push(
-          new Drop({
-            scene: this,
-            x: bullet.getBody().x,
-            y: bullet.getBody().y,
-            texture: this.getRandomItem(),
-          }),
-        )
       }
-    }
-    this.enemy.update()
+      this.enemy.update()
 
-    // check collision between ship and enemy's bullets
-    for (let bullet of this.enemy.getBullets()) {
+      // check collision between ship and enemy's bullets
+      for (let bullet of this.enemy.getBullets()) {
+        if (
+          this.player.getBody() &&
+          bullet.getBody() &&
+          Phaser.Geom.Intersects.RectangleToRectangle(bullet.getBody(), this.player.getBody())
+        ) {
+          bullet.setActive(false)
+
+          // Sparks
+          if (this.sparkEmitter0 && this.sparkEmitter1) {
+            this.sparkEmitter0.active = true
+            this.sparkEmitter0.setPosition(bullet.getBody().x, bullet.getBody().y)
+            this.sparkEmitter0.explode(1, 0, 0)
+
+            this.sparkEmitter1.active = true
+            this.sparkEmitter1.setPosition(bullet.getBody().x, bullet.getBody().y)
+            this.sparkEmitter1.explode(1, 0, 0)
+          }
+
+          this.damage(1)
+        }
+      }
+
+      // check collision between enemy and ship
       if (
+        this.enemy.getBody() &&
         this.player.getBody() &&
-        bullet.getBody() &&
-        Phaser.Geom.Intersects.RectangleToRectangle(bullet.getBody(), this.player.getBody())
+        Phaser.Geom.Intersects.RectangleToRectangle(this.enemy.getBody(), this.player.getBody())
       ) {
-        bullet.setActive(false)
-
-        // Sparks
-        this.sparkEmitter0.active = true
-        this.sparkEmitter1.active = true
-        this.sparkEmitter0.setPosition(bullet.getBody().x, bullet.getBody().y)
-        this.sparkEmitter1.setPosition(bullet.getBody().x, bullet.getBody().y)
-        //@ts-ignore
-        this.sparkEmitter0.explode()
-        //@ts-ignore
-        this.sparkEmitter1.explode()
-
-        this.damage(1)
+        // this.damage(1)
       }
-    }
 
-    // check collision between enemy and ship
-    if (
-      this.enemy.getBody() &&
-      this.player.getBody() &&
-      Phaser.Geom.Intersects.RectangleToRectangle(this.enemy.getBody(), this.player.getBody())
-    ) {
-      // this.damage(1)
-    }
-
-    // check collision between droped item and ship
-    for (let i = 0; i < this.drops.length; i++) {
-      if (
-        this.player.getBody() &&
-        this.drops[i].getBody() &&
-        Phaser.Geom.Intersects.RectangleToRectangle(this.drops[i].getBody(), this.player.getBody())
-      ) {
-        state.inventory.push(this.drops[i].texture.key)
-        this.drops[i].destroy()
-        this.drops.splice(i, 1)
+      // check collision between droped item and ship
+      for (let i = 0; i < this.drops.length; i++) {
+        if (
+          this.player.getBody() &&
+          this.drops[i].getBody() &&
+          Phaser.Geom.Intersects.RectangleToRectangle(this.drops[i].getBody(), this.player.getBody())
+        ) {
+          state.inventory.push(this.drops[i].texture.key)
+          this.drops[i].destroy()
+          this.drops.splice(i, 1)
+        }
       }
-    }
 
-    if (!this.enemy.active) {
-      this.enemy.destroy()
-      // this.spawnEnemy()
+      if (!this.enemy.active) {
+        this.enemy.destroy()
+        // this.spawnEnemy()
+      }
     }
   }
 

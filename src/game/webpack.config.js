@@ -1,19 +1,22 @@
 const path = require('path')
-const CopyPlugin = require("copy-webpack-plugin");
+const CopyPlugin = require('copy-webpack-plugin')
+const webpack = require("webpack");
 
 module.exports = {
   entry: './src/game.ts',
   output: {
-    path: process.env.NODE_ENV === "production" ? path.resolve(__dirname, 'dist') : path.resolve(__dirname),
+    path: process.env.NODE_ENV === 'production' ? path.resolve(__dirname, 'dist') : path.resolve(__dirname),
     filename: 'bundle.js',
   },
+  ignoreWarnings: [/Failed to parse source map/],
   plugins: [
     new CopyPlugin({
       patterns: [
-        { from: "assets", to: "assets" },
-        { from: "index.html", to: "index.html" },
+        { from: 'assets', to: 'assets' },
+        { from: 'index.html', to: 'index.html' },
       ],
     }),
+    new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] }),
   ],
   module: {
     rules: [
@@ -22,11 +25,12 @@ module.exports = {
         include: path.resolve(__dirname, 'src'),
         loader: 'ts-loader',
       },
-      // {
-      //   test: require.resolve('Phaser'),
-      //   loader: 'expose-loader',
-      //   options: { exposes: { globalName: 'Phaser', override: true } }
-      // }
+      {
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false,
+        },
+      },
     ],
   },
   devServer: {
@@ -38,5 +42,15 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.js'],
+    fallback: {
+      crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify'),
+      util: require.resolve('util'),
+      assert: require.resolve('assert'),
+      fs: false,
+      process: false,
+      path: false,
+      zlib: false,
+    },
   },
 }
