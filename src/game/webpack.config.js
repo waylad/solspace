@@ -1,6 +1,6 @@
 const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
-const webpack = require("webpack");
+const webpack = require('webpack')
 
 module.exports = {
   entry: './src/game.ts',
@@ -17,6 +17,9 @@ module.exports = {
       ],
     }),
     new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
   ],
   module: {
     rules: [
@@ -45,6 +48,7 @@ module.exports = {
     fallback: {
       crypto: require.resolve('crypto-browserify'),
       stream: require.resolve('stream-browserify'),
+      os: require.resolve('os-browserify/browser'),
       util: require.resolve('util'),
       assert: require.resolve('assert'),
       fs: false,

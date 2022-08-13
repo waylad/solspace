@@ -14,15 +14,20 @@
   },
   "dependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
-    "@metaplex-foundation/js": "0.12.0",
-    "@metaplex-foundation/mpl-candy-machine": "^4.4.0",
-    "@solana/web3.js": "^1.52.0",
+    "@metaplex-foundation/js": "^0.14.0",
+    "@metaplex-foundation/mpl-candy-machine": "^4.3.0",
+    "@solana/web3.js": "^1.39.1",
     "assert": "^2.0.0",
     "crypto-browserify": "^3.12.0",
+    "dotenv": "^16.0.1",
+    "os-browserify": "^0.3.0",
     "phaser": "^3.55.2",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "stream-browserify": "^3.0.0",
     "util": "^0.12.4"
+  },
+  "resolutions": {
+    "@metaplex-foundation/mpl-candy-machine": "4.3.0"
   },
   "lint-staged": {
     "*.{js,jsx}": [

@@ -1,5 +1,6 @@
-import { Metaplex } from '@metaplex-foundation/js'
-import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js'
+require('dotenv').config()
+import { Metaplex, walletAdapterIdentity } from "@metaplex-foundation/js";
+import { clusterApiUrl, Connection, PublicKey } from "@solana/web3.js";
 
 import { ShipToken } from '../const/state'
 import { TLog } from './types'
@@ -71,7 +72,9 @@ export const connectWallet = async () => {
         }
       })
 
-      await provider.connect()
+      const resp = await provider.connect()
+
+      metaplex.use(walletAdapterIdentity(provider))
     }
   } catch (e: any) {
     console.log(e)
@@ -118,6 +121,7 @@ export const mintShip = async () => {
   // const tx = await spaceShipsContractWithSigner.mintShip(address)
   // const receipt = await tx.wait();
   // console.log(receipt)
+
   const { nft } = await metaplex
     .nfts()
     .create({

@@ -1,5 +1,4 @@
 import { Enemy } from '../objects/enemy'
-import { Bullet } from '../objects/bullet'
 import { Ship } from '../objects/ship'
 import { Level, state } from '../const/state'
 import { Drop } from '../objects/drop'
