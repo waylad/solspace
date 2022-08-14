@@ -1,6 +1,7 @@
 export type ShipToken = {
   tokenId: number
   shipCode: string
+  nft: any
 }
 
 export type Level = {
@@ -36,6 +37,7 @@ export let state: State = {
   currentShip: {
     tokenId: 0,
     shipCode: '0000',
+    nft: null
   },
   currentLevelIndex: 0,
   levelHistory: [],

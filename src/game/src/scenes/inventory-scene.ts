@@ -40,7 +40,8 @@ export class Inventory extends Phaser.Scene {
 
     const currentShip = state.currentShip || {
       tokenId: 0,
-      shipCode: '0000'
+      shipCode: '0000',
+      nft: null
     }
 
     const bigCell = this.add.image(0, 0, 'bigCell')

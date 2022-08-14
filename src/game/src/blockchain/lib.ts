@@ -85,41 +85,16 @@ export const getShips = async () => {
   try {
     const myNfts = await metaplex.nfts().findAllByOwner(metaplex.identity().publicKey).run()
     console.log(myNfts)
-
     myNfts.map((nft: any) => {
-      if(nft.name.indexOf("SolSpace Ship") >= 0) {
+      if (nft.name.indexOf('SolSpace Ship') >= 0) {
         state.ownedShips.push({
-          tokenId: Math.floor(Math.random()*10000),
-          shipCode: nft.name.replace("SolSpace Ship ", ""),
+          tokenId: Math.floor(Math.random() * 10000),
+          shipCode: nft.name.replace('SolSpace Ship ', ''),
+          nft,
         })
       }
     })
-    // const shipId1 = await spaceShipsContractWithSigner.tokenOfOwnerByIndex(address, 1)
-    // const shipId2 = await spaceShipsContractWithSigner.tokenOfOwnerByIndex(address, 2)
-    // const shipId3 = await spaceShipsContractWithSigner.tokenOfOwnerByIndex(address, 3)
-    // const shipId4 = await spaceShipsContractWithSigner.tokenOfOwnerByIndex(address, 4)
-    // const shipCode1 = await spaceShipsContractWithSigner._tokenToShipCode(shipId1)
-    // const shipCode2 = await spaceShipsContractWithSigner._tokenToShipCode(shipId2)
-    // const shipCode3 = await spaceShipsContractWithSigner._tokenToShipCode(shipId3)
-    // const shipCode4 = await spaceShipsContractWithSigner._tokenToShipCode(shipId4)
-    // state.ownedShips = [
-    //   {
-    //     tokenId: shipId1,
-    //     shipCode: shipCode1,
-    //   },
-    //   {
-    //     tokenId: shipId2,
-    //     shipCode: shipCode2,
-    //   },
-    //   {
-    //     tokenId: shipId3,
-    //     shipCode: shipCode3,
-    //   },
-    //   {
-    //     tokenId: shipId4,
-    //     shipCode: shipCode4,
-    //   },
-    // ]
+    // state.ownedShips = JSON.parse(localStorage.getItem('ownedShips') || '[]')
     // console.log(state.ownedShips)
   } catch (e: any) {
     console.log(e)
@@ -138,28 +113,42 @@ export const mintShip = async () => {
     })
     .run()
   console.log(nft)
+
+  // state.ownedShips = JSON.parse(localStorage.getItem('ownedShips') || '[]')
+  // state.ownedShips.push({
+  //   tokenId: Math.floor(Math.random() * 10000),
+  //   shipCode: nft.name.replace('SolSpace Ship ', ''),
+  //   nft,
+  // })
+  // localStorage.setItem('ownedShips', JSON.stringify(state.ownedShips))
 }
 
 export const upgradeShip = async (ship: ShipToken) => {
-  // const tx = await spaceShipsContractWithSigner.upgradeShip(ship.tokenId, ship.shipCode)
-  // const confirmation = await provider.getTransactionReceipt(tx.hash)
-  // console.log(confirmation)
+  // Not working for some reason....
+  // const { nft: updatedNft } = await metaplex
+  //   .nfts()
+  //   .update(ship.nft, {
+  //     uri: `https://solspacemetaverse.com/assets/ships/${ship.shipCode}.json`,
+  //     name: `SolSpace Ship ${ship.shipCode}`,
+  //     symbol: 'SOLSPACE',
+  //     sellerFeeBasisPoints: 500, // Represents 5.00%.
+  //   })
+  //   .run()
+  // console.log(updatedNft)
+  const { nft } = await metaplex
+    .nfts()
+    .create({
+      uri: `https://solspacemetaverse.com/assets/ships/${ship.shipCode}.json`,
+      name: `SolSpace Ship ${ship.shipCode}`,
+      symbol: 'SOLSPACE',
+      sellerFeeBasisPoints: 500, // Represents 5.00%.
+    })
+    .run()
 }
 
-export const getTokenBalance = async () => {
-  // const spaceCoinsBalance = await spaceCoinsContractWithSigner.balanceOf(address)
-  // state.spaceCoinsBalance = spaceCoinsBalance.toNumber()
-  // console.log(spaceCoinsBalance.toNumber(), 'SpaceCoins')
-}
+export const getTokenBalance = async () => {}
 
 export const mintTokens = async () => {
-  // const tx = await spaceCoinsContractWithSigner.mint(address, 1000)
-  // const confirmation = await provider.getTransactionReceipt(tx.hash)
-  // console.log(confirmation)
 }
 
-export const burnTokens = async () => {
-  // const tx = await spaceCoinsContractWithSigner.burn(1000)
-  // const confirmation = await provider.getTransactionReceipt(tx.hash)
-  // console.log(confirmation)
-}
+export const burnTokens = async () => {}
