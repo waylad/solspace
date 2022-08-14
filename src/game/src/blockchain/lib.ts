@@ -1,8 +1,8 @@
 require('dotenv').config()
-import { Metaplex, walletAdapterIdentity } from "@metaplex-foundation/js";
-import { clusterApiUrl, Connection, PublicKey } from "@solana/web3.js";
+import { Metaplex, TaskStatus, walletAdapterIdentity } from '@metaplex-foundation/js'
+import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js'
 
-import { ShipToken } from '../const/state'
+import { ShipToken, state } from '../const/state'
 import { TLog } from './types'
 import { getProvider } from './utils'
 
@@ -73,7 +73,6 @@ export const connectWallet = async () => {
       })
 
       const resp = await provider.connect()
-
       metaplex.use(walletAdapterIdentity(provider))
     }
   } catch (e: any) {
@@ -84,6 +83,17 @@ export const connectWallet = async () => {
 
 export const getShips = async () => {
   try {
+    const myNfts = await metaplex.nfts().findAllByOwner(metaplex.identity().publicKey).run()
+    console.log(myNfts)
+
+    myNfts.map((nft: any) => {
+      if(nft.name.indexOf("SolSpace Ship") >= 0) {
+        state.ownedShips.push({
+          tokenId: Math.floor(Math.random()*10000),
+          shipCode: nft.name.replace("SolSpace Ship ", ""),
+        })
+      }
+    })
     // const shipId1 = await spaceShipsContractWithSigner.tokenOfOwnerByIndex(address, 1)
     // const shipId2 = await spaceShipsContractWithSigner.tokenOfOwnerByIndex(address, 2)
     // const shipId3 = await spaceShipsContractWithSigner.tokenOfOwnerByIndex(address, 3)
@@ -118,18 +128,16 @@ export const getShips = async () => {
 }
 
 export const mintShip = async () => {
-  // const tx = await spaceShipsContractWithSigner.mintShip(address)
-  // const receipt = await tx.wait();
-  // console.log(receipt)
-
   const { nft } = await metaplex
     .nfts()
     .create({
-      uri: 'https://arweave.net/123',
-      name: 'My NFT',
+      uri: 'https://solspacemetaverse.com/assets/ships/0000.json',
+      name: 'SolSpace Ship 0000',
+      symbol: 'SOLSPACE',
       sellerFeeBasisPoints: 500, // Represents 5.00%.
     })
     .run()
+  console.log(nft)
 }
 
 export const upgradeShip = async (ship: ShipToken) => {
