@@ -1,81 +1,23 @@
-require('dotenv').config()
-import { Metaplex, TaskStatus, walletAdapterIdentity } from '@metaplex-foundation/js'
-import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js'
+import { Metaplex, walletAdapterIdentity } from '@metaplex-foundation/js'
+import { clusterApiUrl, Connection } from '@solana/web3.js'
 import { ShipToken } from 'state/stateTypes'
 
 import { state } from '../state/state'
-import { TLog } from './types'
 import { getProvider } from './utils'
 
-const NETWORK = clusterApiUrl('devnet')
-const provider = getProvider()
-const connection = new Connection(NETWORK)
-const metaplex = new Metaplex(connection)
-
-export type ConnectedMethods =
-  | {
-      name: string
-      onClick: () => Promise<string>
-    }
-  | {
-      name: string
-      onClick: () => Promise<void>
-    }
-
-interface Props {
-  publicKey: PublicKey | null
-  connectedMethods: ConnectedMethods[]
-  handleConnect: () => Promise<void>
-  logs: TLog[]
-  clearLogs: () => void
-}
+let NETWORK: any = undefined
+let provider: any = undefined
+let connection: any = undefined
+let metaplex: any = undefined
 
 export const connectWallet = async () => {
   try {
-    if (provider) {
-      provider.on('connect', (publicKey: PublicKey) => {
-        console.log({
-          status: 'success',
-          method: 'connect',
-          message: `Connected to account ${publicKey.toBase58()}`,
-        })
-      })
-
-      provider.on('disconnect', () => {
-        console.log({
-          status: 'warning',
-          method: 'disconnect',
-          message: '👋',
-        })
-      })
-
-      provider.on('accountChanged', (publicKey: PublicKey | null) => {
-        if (publicKey) {
-          console.log({
-            status: 'info',
-            method: 'accountChanged',
-            message: `Switched to account ${publicKey.toBase58()}`,
-          })
-        } else {
-          console.log({
-            status: 'info',
-            method: 'accountChanged',
-            message: 'Attempting to switch accounts.',
-          })
-
-          provider.connect().catch((error) => {
-            console.log({
-              status: 'error',
-              method: 'accountChanged',
-              message: `Failed to re-connect: ${error.message}`,
-            })
-          })
-        }
-      })
-
-      const resp = await provider.connect()
-      metaplex.use(walletAdapterIdentity(provider))
-    }
+    NETWORK = clusterApiUrl('devnet')
+    provider = getProvider()
+    connection = new Connection(NETWORK)
+    metaplex = new Metaplex(connection)
+    const resp = await provider.connect()
+    metaplex.use(walletAdapterIdentity(provider))
   } catch (e: any) {
     console.log(e)
     // window.location.reload()
@@ -149,7 +91,6 @@ export const upgradeShip = async (ship: ShipToken) => {
 
 export const getTokenBalance = async () => {}
 
-export const mintTokens = async () => {
-}
+export const mintTokens = async () => {}
 
 export const burnTokens = async () => {}

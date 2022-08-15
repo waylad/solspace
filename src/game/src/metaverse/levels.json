@@ -6,7 +6,8 @@
       "background": "bg8",
       "enemyShipCode": "0001",
       "enemySpeed": 100,
-      "enemyRateOfFire": 1
+      "enemyRateOfFire": 1,
+      "enemyHealth": 2
     },
     {
       "starX": 220,
@@ -14,7 +15,8 @@
       "background": "bg5",
       "enemyShipCode": "1001",
       "enemySpeed": 100,
-      "enemyRateOfFire": 1
+      "enemyRateOfFire": 1,
+      "enemyHealth": 2
     },
     {
       "starX": 322,
@@ -22,7 +24,8 @@
       "background": "bg3",
       "enemyShipCode": "0002",
       "enemySpeed": 100,
-      "enemyRateOfFire": 1
+      "enemyRateOfFire": 1,
+      "enemyHealth": 4
     },
     {
       "starX": 458,
@@ -30,7 +33,8 @@
       "background": "bg2",
       "enemyShipCode": "0122",
       "enemySpeed": 150,
-      "enemyRateOfFire": 2
+      "enemyRateOfFire": 2,
+      "enemyHealth": 4
     },
     {
       "starX": 448,
@@ -38,7 +42,8 @@
       "background": "bg5",
       "enemyShipCode": "2101",
       "enemySpeed": 150,
-      "enemyRateOfFire": 2
+      "enemyRateOfFire": 2,
+      "enemyHealth": 4
     },
     {
       "starX": 731,
@@ -46,7 +51,8 @@
       "background": "bg6",
       "enemyShipCode": "1022",
       "enemySpeed": 150,
-      "enemyRateOfFire": 3
+      "enemyRateOfFire": 3,
+      "enemyHealth": 8
     },
     {
       "starX": 654,
@@ -54,7 +60,8 @@
       "background": "bg7",
       "enemyShipCode": "2203",
       "enemySpeed": 150,
-      "enemyRateOfFire": 3
+      "enemyRateOfFire": 3,
+      "enemyHealth": 8
     },
     {
       "starX": 609,
@@ -62,7 +69,8 @@
       "background": "bg8",
       "enemyShipCode": "0212",
       "enemySpeed": 150,
-      "enemyRateOfFire": 3
+      "enemyRateOfFire": 3,
+      "enemyHealth": 8
     },
     {
       "starX": 859,
@@ -70,7 +78,8 @@
       "background": "bg9",
       "enemyShipCode": "1122",
       "enemySpeed": 200,
-      "enemyRateOfFire": 4
+      "enemyRateOfFire": 4,
+      "enemyHealth": 10
     },
     {
       "starX": 849,
@@ -78,7 +87,8 @@
       "background": "bg10",
       "enemyShipCode": "1231",
       "enemySpeed": 200,
-      "enemyRateOfFire": 4
+      "enemyRateOfFire": 4,
+      "enemyHealth": 10
     },
     {
       "starX": 1006,
@@ -86,7 +96,8 @@
       "background": "bg8",
       "enemyShipCode": "2321",
       "enemySpeed": 200,
-      "enemyRateOfFire": 4
+      "enemyRateOfFire": 4,
+      "enemyHealth": 10
     },
     {
       "starX": 1237,
@@ -94,7 +105,8 @@
       "background": "bg2",
       "enemyShipCode": "3122",
       "enemySpeed": 200,
-      "enemyRateOfFire": 5
+      "enemyRateOfFire": 5,
+      "enemyHealth": 20
     },
     {
       "starX": 1178,
@@ -102,7 +114,8 @@
       "background": "bg3",
       "enemyShipCode": "2233",
       "enemySpeed": 300,
-      "enemyRateOfFire": 5
+      "enemyRateOfFire": 5,
+      "enemyHealth": 20
     },
     {
       "starX": 1275,
@@ -110,7 +123,8 @@
       "background": "bg3",
       "enemyShipCode": "3333",
       "enemySpeed": 300,
-      "enemyRateOfFire": 5
+      "enemyRateOfFire": 5,
+      "enemyHealth": 20
     },
     {
       "starX": 1482,
@@ -118,7 +132,8 @@
       "background": "bg5",
       "enemyShipCode": "3323",
       "enemySpeed": 300,
-      "enemyRateOfFire": 6
+      "enemyRateOfFire": 6,
+      "enemyHealth": 20
     },
     {
       "starX": 1367,
@@ -126,7 +141,8 @@
       "background": "bg6",
       "enemyShipCode": "2333",
       "enemySpeed": 300,
-      "enemyRateOfFire": 8
+      "enemyRateOfFire": 8,
+      "enemyHealth": 20
     },
     {
       "starX": 1510,
@@ -134,7 +150,8 @@
       "background": "bg7",
       "enemyShipCode": "3333",
       "enemySpeed": 500,
-      "enemyRateOfFire": 10
+      "enemyRateOfFire": 10,
+      "enemyHealth": 30
     }
   ]
 }

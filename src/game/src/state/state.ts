@@ -1,7 +1,10 @@
 import { State } from "./stateTypes";
 
 export let state: State = {
-  playerHealth: 10,
+  paused: false,
+  playerMaxHealth: 30,
+  playerStartingHealth: 30,
+  playerCurrentHealth: 0,
   enemyHealth: 0,
   spaceShipsContract: '',
   spaceCoinsContract: '',

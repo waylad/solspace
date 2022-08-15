@@ -1,12 +1,12 @@
-import { BootScene } from './scenes/boot-scene';
-import { PreloaderScene } from './scenes/preloader-scene';
-import { ConnectWallet } from './scenes/connect-wallet-scene';
-import { GameOver } from './scenes/game-over-scene';
-import { Game } from './scenes/game-scene';
-import { Inventory } from './scenes/inventory-scene';
-import { Shop } from './scenes/shop-scene';
-import { SelectShip } from './scenes/select-ship-scene';
-import { Map } from './scenes/map-scene';
+import { BootScene } from './scenes/bootScene';
+import { PreloaderScene } from './scenes/preloaderScene';
+import { ConnectWalletScene } from './scenes/connectWalletScene';
+import { GameOverScene } from './scenes/gameOverScene';
+import { GameScene } from './scenes/game/gameScene';
+import { InventoryScene } from './scenes/inventoryScene';
+import { ShopScene } from './scenes/shopScene';
+import { SelectShipScene } from './scenes/selectShipScene';
+import { MapScene } from './scenes/mapScene';
 
 export const GameConfig: Phaser.Types.Core.GameConfig = {
   title: 'SOLSPACE',
@@ -16,7 +16,7 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
   height: 800,
   type: Phaser.AUTO,
   parent: 'game',
-  scene: [BootScene, PreloaderScene, ConnectWallet, SelectShip, Game, Inventory, Shop, GameOver, Map],
+  scene: [BootScene, PreloaderScene, ConnectWalletScene, SelectShipScene, GameScene, InventoryScene, ShopScene, GameOverScene, MapScene],
   input: {
     keyboard: true,
     mouse: true,

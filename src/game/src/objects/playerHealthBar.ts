@@ -1,47 +1,37 @@
-export interface IPlayerHealthBarConstructor {
+import { state } from '../state/state'
+
+export interface IplayerHealthBarConstructor {
   scene: Phaser.Scene
   health: number
 }
 
 export class PlayerHealthBar extends Phaser.GameObjects.Container {
-  private bar: Phaser.GameObjects.Graphics
-  private value: number
+  private health: number
+  private graphicBars: Phaser.GameObjects.Image[]
 
-  constructor({ scene, health }: IPlayerHealthBarConstructor) {
-    super(scene, 100, 100)
-    this.bar = new Phaser.GameObjects.Graphics(scene)
+  constructor({ scene, health }: IplayerHealthBarConstructor) {
+    super(scene, 40, 40)
+    this.health = health
+    scene.add.image(39, 40, 'player-healthbar-container').setOrigin(0)
 
-    var svg1 = scene.add.image(100, 100, 'enemy-healthbar-bar').setOrigin(0);
+    this.graphicBars = []
+    for (let i = 1; i < state.playerMaxHealth; i++) {
+      if (i === 1) this.graphicBars.push(scene.add.image(44, 44, 'player-healthbar-starter').setOrigin(0))
+      else this.graphicBars.push(scene.add.image(32 + i * 14, 44, 'player-healthbar-bar').setOrigin(0))
+    }
 
-    this.value = health
     this.draw()
-    scene.add.existing(this.bar)
   }
 
-  public update(value: number): void {
-    this.value = value
+  public update(health: number): void {
+    this.health = health
     this.draw()
   }
 
   public draw(): void {
-    this.bar.clear()
-
-    //  BG
-    this.bar.fillStyle(0x000000)
-    this.bar.fillRect(this.x, this.y, 80, 16)
-
-    //  Health
-    this.bar.fillStyle(0xffffff)
-    this.bar.fillRect(this.x + 2, this.y + 2, 76, 12)
-
-    if (this.value < 3) {
-      this.bar.fillStyle(0xff0000)
-    } else {
-      this.bar.fillStyle(0x00ff00)
+    for (let i = 1; i < state.playerMaxHealth; i++) {
+      if (i <= this.health) this.graphicBars[i - 1].visible = true
+      else this.graphicBars[i - 1].visible = false
     }
-
-    var d = Math.floor((76 / 100) * 10 * this.value)
-
-    this.bar.fillRect(this.x + 2, this.y + 2, d, 12)
   }
 }
