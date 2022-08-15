@@ -1,6 +1,13 @@
 import { Bullet } from './bullet'
-import { state } from '../const/state'
-import { IShipConstructor } from '../interfaces/ship.interface'
+import { state } from '../state/state'
+
+export interface IShipConstructor {
+  scene: Phaser.Scene
+  x: number
+  y: number
+  shipCode: string
+  frame?: string | number
+}
 
 export class Ship extends Phaser.GameObjects.Container {
   body: Phaser.Physics.Arcade.Body | Phaser.Physics.Arcade.StaticBody

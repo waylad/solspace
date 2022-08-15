@@ -1,5 +1,5 @@
 import { connectWallet, getShips } from '../blockchain/lib'
-import { state } from '../const/state'
+import { state } from '../state/state'
 
 export class ConnectWallet extends Phaser.Scene {
   private buttonConnectWallet: Phaser.GameObjects.Image | null

@@ -1,6 +1,16 @@
-import { state } from '../const/state'
-import { IEnemyConstructor } from '../interfaces/enemy.interface'
+import { state } from '../state/state'
 import { Bullet } from './bullet'
+
+export interface IEnemyConstructor {
+  scene: Phaser.Scene;
+  x: number;
+  y: number;
+  enemyShipCode: string;
+  enemySpeed: number;
+  enemyRateOfFire: number;
+  frame?: string | number;
+  player: Phaser.GameObjects.Container
+}
 
 export class Enemy extends Phaser.GameObjects.Container {
   body: Phaser.Physics.Arcade.Body | Phaser.Physics.Arcade.StaticBody
@@ -8,9 +18,9 @@ export class Enemy extends Phaser.GameObjects.Container {
   private emitter: Phaser.GameObjects.Particles.ParticleEmitter
   private shootCount: number
   private particles: Phaser.GameObjects.Particles.ParticleEmitterManager
-  private shipCode: string
-  private speed: number
-  private rateOfFire: number
+  private enemyShipCode: string
+  private enemySpeed: number
+  private enemyRateOfFire: number
   private player: Phaser.GameObjects.Container
 
   public getBullets(): Bullet[] {
@@ -25,9 +35,9 @@ export class Enemy extends Phaser.GameObjects.Container {
     super(aParams.scene, aParams.x, aParams.y)
     this.body = super.body as Phaser.Physics.Arcade.Body | Phaser.Physics.Arcade.StaticBody
 
-    this.shipCode = aParams.shipCode
-    this.speed = aParams.speed
-    this.rateOfFire = aParams.rateOfFire
+    this.enemyShipCode = aParams.enemyShipCode
+    this.enemySpeed = aParams.enemySpeed
+    this.enemyRateOfFire = aParams.enemyRateOfFire
     this.player = aParams.player
 
     // variables
@@ -44,10 +54,10 @@ export class Enemy extends Phaser.GameObjects.Container {
     this.body.setSize(state.shipSize * 2, state.shipSize * 2)
     this.body.setOffset(-state.shipSize, -state.shipSize)
 
-    const partCabin = new Phaser.GameObjects.Image(this.scene, 0, 0, `partCabin${aParams.shipCode[0]}`)
-    const partEngine = new Phaser.GameObjects.Image(this.scene, 0, 0, `partEngine${aParams.shipCode[1]}`)
-    const partWing = new Phaser.GameObjects.Image(this.scene, 0, 0, `partWing${aParams.shipCode[2]}`)
-    const partWeapon = new Phaser.GameObjects.Image(this.scene, 0, 0, `partWeapon${aParams.shipCode[3]}`)
+    const partCabin = new Phaser.GameObjects.Image(this.scene, 0, 0, `partCabin${aParams.enemyShipCode[0]}`)
+    const partEngine = new Phaser.GameObjects.Image(this.scene, 0, 0, `partEngine${aParams.enemyShipCode[1]}`)
+    const partWing = new Phaser.GameObjects.Image(this.scene, 0, 0, `partWing${aParams.enemyShipCode[2]}`)
+    const partWeapon = new Phaser.GameObjects.Image(this.scene, 0, 0, `partWeapon${aParams.enemyShipCode[3]}`)
     this.add([partWeapon, partWing, partEngine, partCabin])
 
     // boost particles
@@ -99,7 +109,7 @@ export class Enemy extends Phaser.GameObjects.Container {
 
       // Shoot
       this.shootCount += 1
-      if (this.shootCount % (60 / this.rateOfFire) === 0) this.shoot()
+      if (this.shootCount % (60 / this.enemyRateOfFire) === 0) this.shoot()
 
       this.checkIfOffScreen()
       this.updateBullets()
@@ -114,7 +124,7 @@ export class Enemy extends Phaser.GameObjects.Container {
       // clamp to -PI to PI for smarter turning
       let diff = Phaser.Math.Angle.Wrap(targetAngle - this.rotation)
 
-      const turnDegreesPerFrame = this.speed / 100
+      const turnDegreesPerFrame = this.enemySpeed / 100
       // set to targetAngle if less than turnDegreesPerFrame
       if (Math.abs(diff) < Phaser.Math.DegToRad(turnDegreesPerFrame)) {
         this.rotation = targetAngle
@@ -132,8 +142,8 @@ export class Enemy extends Phaser.GameObjects.Container {
       }
 
       // move enemy in direction facing
-      const vx = Math.cos(this.rotation) * this.speed
-      const vy = Math.sin(this.rotation) * this.speed
+      const vx = Math.cos(this.rotation) * this.enemySpeed
+      const vy = Math.sin(this.rotation) * this.enemySpeed
 
       this.body.velocity.x = vx
       this.body.velocity.y = vy
@@ -166,9 +176,9 @@ export class Enemy extends Phaser.GameObjects.Container {
     // this.scene.sound.add('shootSound').play() // Anoying ^^
 
     let bulletPosition = 25
-    if (this.shipCode[3] === '1') bulletPosition = 60
-    if (this.shipCode[3] === '2') bulletPosition = 55
-    if (this.shipCode[3] === '3') bulletPosition = 50
+    if (this.enemyShipCode[3] === '1') bulletPosition = 60
+    if (this.enemyShipCode[3] === '2') bulletPosition = 55
+    if (this.enemyShipCode[3] === '3') bulletPosition = 50
 
     this.bullets.push(
       new Bullet({
@@ -186,7 +196,7 @@ export class Enemy extends Phaser.GameObjects.Container {
         texture: 'bullet',
       }),
     )
-    if (this.shipCode[3] === '3') {
+    if (this.enemyShipCode[3] === '3') {
       this.bullets.push(
         new Bullet({
           scene: this.scene,

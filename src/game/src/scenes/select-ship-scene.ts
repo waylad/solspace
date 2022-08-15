@@ -1,5 +1,5 @@
 import { getShips, mintShip } from '../blockchain/lib'
-import { state } from '../const/state'
+import { state } from '../state/state'
 
 export class SelectShip extends Phaser.Scene {
   private buttonMint: Phaser.GameObjects.Image | null

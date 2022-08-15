@@ -1,5 +1,5 @@
 import { burnTokens, getTokenBalance, mintTokens } from '../blockchain/lib'
-import { state } from '../const/state'
+import { state } from '../state/state'
 
 export class Shop extends Phaser.Scene {
   private textBalance: Phaser.GameObjects.Text | null

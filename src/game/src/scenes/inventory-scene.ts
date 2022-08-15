@@ -1,5 +1,5 @@
 import { upgradeShip } from '../blockchain/lib'
-import { state } from '../const/state'
+import { state } from '../state/state'
 
 export class Inventory extends Phaser.Scene {
   private counter = 0

@@ -1,5 +1,5 @@
-import { Level, state } from '../const/state'
-import { levels } from '../const/levels.json'
+import { state } from '../state/state'
+import { levels } from '../metaverse/levels.json'
 
 export class Map extends Phaser.Scene {
   constructor() {
@@ -22,8 +22,8 @@ export class Map extends Phaser.Scene {
     )
 
     this.add.tileSprite(
-      levels[levels.length - 1].x,
-      levels[levels.length - 1].y - 50,
+      levels[levels.length - 1].starX,
+      levels[levels.length - 1].starY - 50,
       95,
       48,
       'bossLabel',
@@ -32,12 +32,12 @@ export class Map extends Phaser.Scene {
     const currentLevel = levels[state.currentLevelIndex]
     // @ts-ignore
     levels.forEach((level: Level, index: number) => {
-      const star = this.add.circle(level.x, level.y, 6, 0xffffff)
-      const distance = Math.sqrt(Math.pow(level.x - currentLevel.x, 2) + Math.pow(level.y - currentLevel.y, 2))
+      const star = this.add.circle(level.starX, level.starY, 6, 0xffffff)
+      const distance = Math.sqrt(Math.pow(level.starX - currentLevel.starX, 2) + Math.pow(level.starY - currentLevel.starY, 2))
       if (distance < 400) {
         var graphics = this.add.graphics()
         graphics.lineStyle(1, 0xffffff, 1)
-        graphics.lineBetween(level.x, level.y, currentLevel.x, currentLevel.y)
+        graphics.lineBetween(level.starX, level.starY, currentLevel.starX, currentLevel.starY)
 
         star.setInteractive({ cursor: 'pointer' })
         star.on('pointerover', () => star.setFillStyle(0x6155ff))
@@ -52,8 +52,8 @@ export class Map extends Phaser.Scene {
     })
 
     let currentPosition = this.add.image(
-      levels[state.currentLevelIndex].x,
-      levels[state.currentLevelIndex].y,
+      levels[state.currentLevelIndex].starX,
+      levels[state.currentLevelIndex].starY,
       'currentPosition',
     )
     this.tweens.add({

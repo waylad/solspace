@@ -1,8 +1,9 @@
 require('dotenv').config()
 import { Metaplex, TaskStatus, walletAdapterIdentity } from '@metaplex-foundation/js'
 import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js'
+import { ShipToken } from 'state/stateTypes'
 
-import { ShipToken, state } from '../const/state'
+import { state } from '../state/state'
 import { TLog } from './types'
 import { getProvider } from './utils'
 

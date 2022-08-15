@@ -1,4 +1,4 @@
-import { state } from '../const/state'
+import { state } from '../state/state'
 
 export class GameOver extends Phaser.Scene {
   constructor() {

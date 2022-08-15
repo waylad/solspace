@@ -1,4 +1,12 @@
-import { IBulletConstructor } from '../interfaces/bullet.interface'
+export interface IBulletConstructor {
+  scene: Phaser.Scene;
+  x: number;
+  y: number;
+  rotation: number;
+  texture: string;
+  frame?: string | number;
+}
+
 
 export class Bullet extends Phaser.Physics.Arcade.Sprite {
   body: Phaser.Physics.Arcade.Body | Phaser.Physics.Arcade.StaticBody

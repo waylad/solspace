@@ -1,9 +1,10 @@
 import { Enemy } from '../objects/enemy'
 import { Ship } from '../objects/ship'
-import { Level, state } from '../const/state'
+import { state } from '../state/state'
 import { Drop } from '../objects/drop'
-import { levels } from '../const/levels.json'
-import { HealthBar } from '../objects/healthBar'
+import { levels } from '../metaverse/levels.json'
+import { PlayerHealthBar } from '../objects/playerHealthBar'
+import { Level } from 'state/stateTypes'
 
 export class Game extends Phaser.Scene {
   private player: Ship | null
@@ -11,10 +12,10 @@ export class Game extends Phaser.Scene {
   private sparkEmitter0: Phaser.GameObjects.Particles.ParticleEmitter | null
   private sparkEmitter1: Phaser.GameObjects.Particles.ParticleEmitter | null
   private drops: Drop[]
-  private healthBar: HealthBar | null
+  private playerHealthBar: PlayerHealthBar | null
 
   private distance: number = 300
-  private speed: number = 6
+  private enemySpeed: number = 6
   private stars: Phaser.GameObjects.Sprite[] = []
   private max: number = 400
   private x: number[] = []
@@ -30,7 +31,7 @@ export class Game extends Phaser.Scene {
     this.sparkEmitter0 = null
     this.sparkEmitter1 = null
     this.drops = []
-    this.healthBar = null
+    this.playerHealthBar = null
   }
 
   preload(): void {}
@@ -58,9 +59,9 @@ export class Game extends Phaser.Scene {
       scene: this,
       x: this.getRandomSpawnPostion(this.sys.canvas.width),
       y: this.getRandomSpawnPostion(this.sys.canvas.height),
-      shipCode: currentLevel.enemyCode,
-      speed: currentLevel.speed,
-      rateOfFire: currentLevel.rateOfFire,
+      enemyShipCode: currentLevel.enemyShipCode,
+      enemySpeed: currentLevel.enemySpeed,
+      enemyRateOfFire: currentLevel.enemyRateOfFire,
       player: this.player,
     })
 
@@ -146,11 +147,14 @@ export class Game extends Phaser.Scene {
       this.scene.start('SelectShip')
     })
 
-    this.healthBar = new HealthBar({ scene: this, x: 100, y: 100 })
+    this.playerHealthBar = new PlayerHealthBar({ scene: this, health: state.playerHealth })
   }
 
   damage(amount: number): void {
-    if (this.healthBar && this.healthBar.decrease(amount)) {
+    state.playerHealth -= 1
+    this.playerHealthBar?.update(state.playerHealth)
+
+    if (state.playerHealth <= 0) {
       if (this.enemy) this.enemy.destroy()
       this.drops.forEach((drop) => drop.destroy())
       this.drops = []
@@ -168,7 +172,7 @@ export class Game extends Phaser.Scene {
       const x_coord = this.sys.canvas.width / 2 + this.x[i] * perspective
       const y_coord = this.sys.canvas.height / 2 + this.y[i] * perspective
 
-      this.z[i] += this.speed
+      this.z[i] += this.enemySpeed
 
       if (this.z[i] > 300) {
         this.z[i] -= 600

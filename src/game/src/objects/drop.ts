@@ -1,5 +1,12 @@
-import { state } from '../const/state'
-import { IDropConstructor } from '../interfaces/drop.interface'
+import { state } from '../state/state'
+
+export interface IDropConstructor {
+  scene: Phaser.Scene;
+  x: number;
+  y: number;
+  texture: string;
+  frame?: string | number;
+}
 
 export class Drop extends Phaser.Physics.Arcade.Sprite {
   body: Phaser.Physics.Arcade.Body | Phaser.Physics.Arcade.StaticBody
