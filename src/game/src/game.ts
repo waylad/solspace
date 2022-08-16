@@ -1,5 +1,6 @@
 import 'phaser';
 import { GameConfig } from './config';
+require('dotenv').config()
 
 export class Game extends Phaser.Game {
   constructor(config: Phaser.Types.Core.GameConfig) {

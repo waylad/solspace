@@ -47,8 +47,7 @@ export class PreloaderScene extends Phaser.Scene {
       progressBox.destroy()
       percentText.destroy()
       assetText.destroy()
-      this.scene.start('ConnectWallet')
-      // this.scene.start('Game')
+      this.scene.start(process.env.STARTING_SCENE || 'ConnectWallet')
     })
 
     this.load.image('background', './assets/stars.png')

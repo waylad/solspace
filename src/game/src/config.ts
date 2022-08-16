@@ -1,4 +1,3 @@
-import { BootScene } from './scenes/bootScene';
 import { PreloaderScene } from './scenes/preloaderScene';
 import { ConnectWalletScene } from './scenes/connectWalletScene';
 import { GameOverScene } from './scenes/gameOverScene';
@@ -16,7 +15,7 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
   height: 800,
   type: Phaser.AUTO,
   parent: 'game',
-  scene: [BootScene, PreloaderScene, ConnectWalletScene, SelectShipScene, GameScene, InventoryScene, ShopScene, GameOverScene, MapScene],
+  scene: [PreloaderScene, ConnectWalletScene, SelectShipScene, GameScene, InventoryScene, ShopScene, GameOverScene, MapScene],
   input: {
     keyboard: true,
     mouse: true,

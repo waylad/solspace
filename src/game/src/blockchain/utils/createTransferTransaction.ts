@@ -1,4 +1,4 @@
-import { Transaction, SystemProgram, Connection, PublicKey } from '@solana/web3.js';
+import { Transaction, SystemProgram, Connection, PublicKey } from '@solana/web3.js'
 
 /**
  * Creates an arbitrary transfer transaction
@@ -12,14 +12,14 @@ const createTransferTransaction = async (publicKey: PublicKey, connection: Conne
       fromPubkey: publicKey,
       toPubkey: publicKey,
       lamports: 100,
-    })
-  );
-  transaction.feePayer = publicKey;
+    }),
+  )
+  transaction.feePayer = publicKey
 
-  const anyTransaction: any = transaction;
-  anyTransaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+  const anyTransaction: any = transaction
+  anyTransaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash
 
-  return transaction;
-};
+  return transaction
+}
 
-export default createTransferTransaction;
+export default createTransferTransaction

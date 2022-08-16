@@ -23,13 +23,11 @@ export class ConnectWalletScene extends Phaser.Scene {
     this.showLoading = false
     this.showingLoading = false
 
-    this.add.tileSprite(
+    const bg = this.add.image(
       this.sys.canvas.width / 2,
       this.sys.canvas.height / 2,
-      this.sys.canvas.width,
-      this.sys.canvas.height,
       'bgHome',
-    )
+    ).setScale(0.5)
 
     this.buttonConnectWallet = this.add.image(
       this.sys.canvas.width / 2,
