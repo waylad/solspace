@@ -48,9 +48,82 @@ The GitHub repository is a mono-repo containing :
 
 ## Wait, there is more!
 
-SolSpace is not only a game, it's a metaverse! Players can generate their own adventures by editing the configuration file `levels.json` which lists the whole configuration of the game and levels. Create your own galaxy!
+SolSpace is not only a game, it's a metaverse! Players can generate their own adventures by editing the configuration file `dsl.json` which lists the whole configuration of the game and levels. You can create your own galaxy and advantures! Everything you see in the game is configurable.
 
-![](https://solspacemetaverse.com/assets/screenshots/code2.png)
+JSON files are part of the `exchange languages` category of DSLs.
+
+Here is the DSL model of a level:
+
+```json
+{
+  "id": 1, // [!int] Unique ID of the level
+  "starX": 1200, // [!int] X coordinate of the star on the map
+  "starY": 150, // [!int] Y coordinate of the star on the map
+  "background": "bg8", // [!string] Background image of the level. Can be one of "bg1", "bg2", "bg3", "bg4", "bg5", "bg6", "bg7", "bg8", "bg9", "bg10"
+  "enemyShipCode": "0001", // [!string] Features code the enemy ship. First digit is the CABIN code between 0 and 3. Second digit is ENGINE code between 0 and 3. Third digit is WINGS code between 0 and 3. Fourth digit is WEAPONS code between 0 and 3.
+  "enemySpeed": 100, // [!int] Thrusters speed of the enemy
+  "enemyRateOfFire": 1, // [!int] Weapons rate of fire of the enemy
+  "enemyHealth": 2, // [!int] Health points of the enemy
+  "story": {
+    // [!story] Story to show the player when arriving at this level. A story has a statement, an effect and optional responses. Each response can itself contain a story with a statement, an effect and optional responses, and so on in recursive maner.
+    "statement": "Want more health points ?", // [!string] Statement of the first story
+    "effect": {
+      // [?effet] Effect of the story, before choosing a response.
+      "addToPlayerHealth": 0, // [?int] Add or remove health points from the player
+      "addToEnemyHealth": 0, // [?int] Add or remove health points from the enemy
+      "addToPlayerThrust": 0, // [?int] Add or remove engine thrust points from the player
+      "addToEnemyThrust": 0, // [?int] Add or remove engine thrust points from the enemy
+      "addToPlayerWeaponPower": 0, // [?int] Add or remove weapon power points from the player
+      "addToEnemyWeaponPower": 0 // [?int] Add or remove weapon power points from the enemy
+    },
+    // This second story offers responses, which will trigger a third story.
+    "responses": [
+      // [?responses[]] Available responses for the player to choose for this first story
+      {
+        "response": "Yes, I want health points", // [!string] First available response to first story
+        "story": {
+          // [!story] This response triggers a new story
+          "statement": "You gain 3 health points.", // [!string] Statement of the second story
+          "effect": {
+            // [?effet] Effect of this second story, before choosing a potential response.
+            "addToPlayerHealth": 3 // [?int] Add 3 health points to the player
+          },
+          "responses": [] // [?responses[]] Available responses for the player to choose for the second story. Here, no response are available. End of stories.
+        }
+      },
+      {
+        "response": "No thanks, I'm fine", // [!string] Second available response to first story
+        "story": {
+          // [?story] This response triggers a new story
+          "statement": "Ok fine, what about damaging the enemy?",
+          "effect": {}, // No effect yet
+          // The second story offers responses, which will trigger a third story.
+          "responses": [
+            {
+              "response": "Yes, kill him!", // [!string] First available response to second story
+              "story": {
+                "statement": "The enemy looses 2 health points.", // [!string] Statement of third story
+                "effect": {
+                  "addToEnemyHealth": -2 // // [!int] Remove 2 health points from enemy
+                },
+                "responses": [] // No response offered. End of stories.
+              }
+            },
+            {
+              "response": "No, I like a challenge", // [!string] Second available response to second story
+              "story": {
+                "statement": "Go on then!", // [!string] Statement of third story
+                "effect": {}, // No effect
+                "responses": [] // No response offered. End of stories.
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+```
 
 ## What's next?
 
