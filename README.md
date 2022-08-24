@@ -4,7 +4,12 @@
 
 ### Try it out now on https://SolSpaceMetaverse.com
 
-SOLSPACE is a space shooter game on Solana where you can pilot and upgrade your NFT Spaceship.
+SOLSPACE is a space shooter game on Solana with upgradable NFT spaceships and a built-in DSL for you to create your own adventures! Let's first look into the game itself then the DSL.
+
+## About the game
+
+SOLSPACE is a fully working game and available at https://SolSpaceMetaverse.com
+![](https://solspacemetaverse.com/assets/screenshots/level-1.png)
 
 First, mint a basic spaceship to start with. Access the game and fight enemy ships. Harvest their parts. Upgrade your ship. Then sell your upgraded NFT.
 ![](https://solspacemetaverse.com/assets/screenshots/present-model.png)
@@ -12,9 +17,6 @@ First, mint a basic spaceship to start with. Access the game and fight enemy shi
 We have created an NFT collection of 256 unique spaceships made of a combination of 4 different cabins, 4 wings, 4 engines, and 4 weapons.
 ![](https://solspacemetaverse.com/assets/screenshots/present-parts.png)
 ![](https://solspacemetaverse.com/assets/screenshots/present-possibilities.png)
-
-SOLSPACE is a fully working game and available at https://SolSpaceMetaverse.com
-![](https://solspacemetaverse.com/assets/screenshots/level-1.png)
 
 Make sure you have installed Phantom and connected it to the Solana `Devnet`, then click "Connect your Wallet". Phantom will open to authorize the connection.
 ![](https://solspacemetaverse.com/assets/bg-home.png)
