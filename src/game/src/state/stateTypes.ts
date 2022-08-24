@@ -1,10 +1,30 @@
 export type ShipToken = {
   tokenId: number
   shipCode: string
-  nft: any
+}
+
+export type Effect = {
+  addToPlayerHealth?: number
+  addToEnemyHealth?: number
+  addToPlayerThrust?: number
+  addToEnemyThrust?: number
+  addToPlayerWeaponPower?: number
+  addToEnemyWeaponPower?: number
+}
+
+export type Response = {
+  response: string
+  story?: Story
+}
+
+export type Story = {
+  statement?: string
+  effect?: Effect
+  responses?: Response[]
 }
 
 export type Level = {
+  id: number
   starX: number
   starY: number
   background: string
@@ -12,14 +32,19 @@ export type Level = {
   enemySpeed: number
   enemyRateOfFire: number
   enemyHealth: number
+  story?: Story
 }
 
 export type State = {
   paused: boolean,
   playerMaxHealth: number
   playerStartingHealth: number
-  playerCurrentHealth: number
+  playerHealth: number
+  playerThrust: number
+  playerWeaponPower: number
   enemyHealth: number
+  enemyThrust: number
+  enemyWeaponPower: number
   spaceShipsContract: string
   spaceCoinsContract: string
   ownedShips: ShipToken[]

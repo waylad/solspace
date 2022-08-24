@@ -1,3 +1,5 @@
+declare let WebFont: any
+
 export class PreloaderScene extends Phaser.Scene {
   constructor() {
     super({
@@ -6,12 +8,12 @@ export class PreloaderScene extends Phaser.Scene {
   }
 
   preload(): void {
-    var progressBar = this.add.graphics()
-    var progressBox = this.add.graphics()
+    const progressBar = this.add.graphics()
+    const progressBox = this.add.graphics()
     progressBox.fillStyle(0x222222, 0.8)
     progressBox.fillRect(this.sys.canvas.width / 2 - 160, this.sys.canvas.height / 2 - 25, 320, 50)
 
-    var percentText = this.make.text({
+    const percentText = this.make.text({
       x: this.sys.canvas.width / 2,
       y: this.sys.canvas.height / 2,
       text: '0%',
@@ -21,7 +23,7 @@ export class PreloaderScene extends Phaser.Scene {
     })
     percentText.setOrigin(0.5, 0.5)
 
-    var assetText = this.make.text({
+    const assetText = this.make.text({
       x: this.sys.canvas.width / 2,
       y: this.sys.canvas.height / 2 + 50,
       text: '',
@@ -49,6 +51,8 @@ export class PreloaderScene extends Phaser.Scene {
       assetText.destroy()
       this.scene.start(process.env.STARTING_SCENE || 'ConnectWallet')
     })
+
+    this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js')
 
     this.load.image('background', './assets/stars.png')
     this.load.image('star', './assets/star.png')
@@ -105,6 +109,8 @@ export class PreloaderScene extends Phaser.Scene {
     this.load.svg('enemy-healthbar-bar', './assets/healthbar/enemy-healthbar-bar.svg')
     this.load.svg('enemy-healthbar-starter', './assets/healthbar/enemy-healthbar-starter.svg')
     this.load.svg('enemy-healthbar-container', './assets/healthbar/enemy-healthbar-container.svg')
+
+    this.load.svg('dialog', './assets/dialog.svg')
 
     this.load.image('bossLabel', './assets/boss-label.png')
     this.load.image('currentPosition', './assets/current-position.png')
@@ -184,7 +190,14 @@ export class PreloaderScene extends Phaser.Scene {
     this.load.audio('explodeSound', './assets/sounds/explode.mp3')
   }
 
-  create(): void {}
+  create(): void {
+    WebFont.load({
+      custom: {
+        families: ['Ethnocentric', 'Electrolize'],
+      },
+      active: function () {},
+    })
+  }
 
   update(): void {}
 }

@@ -105,7 +105,7 @@ export class Ship extends Phaser.GameObjects.Container {
   }
 
   update(time: number, delta: number): void {
-    if (this.active) {
+    if (this.active && !state.paused) {
       this.handleInput()
     }
     this.applyEffects(time)

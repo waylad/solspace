@@ -94,7 +94,7 @@ export class Enemy extends Phaser.GameObjects.Container {
   }
 
   update(): void {
-    if (this.active) {
+    if (this.active && !state.paused) {
       // // create the force in the correct direction
       // let force = new Phaser.Math.Vector2(Math.cos(this.rotation - Math.PI / 2), Math.sin(this.rotation - Math.PI / 2))
       // // reduce the force and apply it to the velocity

@@ -2,13 +2,12 @@ import { Enemy } from '../../objects/enemy'
 import { Ship } from '../../objects/ship'
 import { state } from '../../state/state'
 import { Drop } from '../../objects/drop'
-import { levels } from '../../metaverse/levels.json'
+import { levels } from '../../dsl/dsl.json' assert { type: 'json' }
 import { PlayerHealthBar } from '../../objects/playerHealthBar'
 import { EnemyHealthBar } from '../../objects/enemyHealthBar'
 import { Level } from 'state/stateTypes'
 import { getRandomSpawnPostion } from './getRandomSpawnPostion'
 import { GameButtons } from './gameButtons'
-import { getRandomItem } from './getRandomItem'
 import { checkCollisions } from './checkCollisions'
 
 export class GameScene extends Phaser.Scene {
@@ -37,7 +36,7 @@ export class GameScene extends Phaser.Scene {
 
   private create(): void {
     const currentLevel: Level = levels[state.currentLevelIndex] as Level
-    state.playerCurrentHealth = state.playerStartingHealth
+    state.playerHealth = state.playerStartingHealth
     state.enemyHealth = currentLevel.enemyHealth
 
     this.cameras.main.setRoundPixels(true)
@@ -94,8 +93,14 @@ export class GameScene extends Phaser.Scene {
     })
 
     new GameButtons({ scene: this })
-    this.playerHealthBar = new PlayerHealthBar({ scene: this, health: state.playerCurrentHealth })
+    this.playerHealthBar = new PlayerHealthBar({ scene: this, health: state.playerHealth })
     this.enemyHealthBar = new EnemyHealthBar({ scene: this, health: state.enemyHealth })
+
+    state.paused = true
+    console.log('Launch Dialog')
+    //this.scene.launch('Dialog')
+    this.scene.run('Dialog');
+
   }
 
   public update(time: number, delta: number): void {

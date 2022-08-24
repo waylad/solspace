@@ -1,6 +1,6 @@
 ## SOLSPACE METAVERSE
 
-### Demo Video: https://youtu.be/FRq7Iob1t88
+### Demo Video: https://youtu.be/481XiUEo1_w
 
 ### Try it out now on https://SolSpaceMetaverse.com
 
@@ -55,3 +55,7 @@ SolSpace is not only a game, it's a metaverse! Players can generate their own ad
 ## What's next?
 
 We want to create more spaceship parts and generate a collection of 10,000 unique ships then sell that collection in order to finance the development of the game to build more enemies, worlds, a multiplayer mode, some storytelling, etc...
+
+## Source code
+
+If as judge you need access to the source code, please email me your github username at waylad42@gmail.com

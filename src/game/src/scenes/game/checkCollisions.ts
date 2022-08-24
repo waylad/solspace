@@ -113,10 +113,10 @@ const damageEnemy = (scene: GameScene, amount: number): void => {
 }
 
 const damagePlayer = (scene: GameScene, amount: number): void => {
-  state.playerCurrentHealth -= 1
-  scene.playerHealthBar?.update(state.playerCurrentHealth)
+  state.playerHealth -= 1
+  scene.playerHealthBar?.update(state.playerHealth)
 
-  if (state.playerCurrentHealth <= 0) {
+  if (state.playerHealth <= 0) {
     if (scene.enemy) scene.enemy.destroy()
     scene.drops.forEach((drop: Drop) => drop.destroy())
     scene.drops = []

@@ -33,7 +33,6 @@ export const getShips = async () => {
         state.ownedShips.push({
           tokenId: Math.floor(Math.random() * 10000),
           shipCode: nft.name.replace('SolSpace Ship ', ''),
-          nft,
         })
       }
     })
